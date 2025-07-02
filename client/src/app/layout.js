@@ -19,7 +19,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className="bg-gray-50 text-gray-800">
         <nav className="bg-white shadow p-4 flex gap-6 justify-center font-medium text-blue-600">
           <Link href="/">Home</Link>

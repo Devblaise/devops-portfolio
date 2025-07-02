@@ -1,26 +1,40 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function BlogPage() {
-  const [posts, setPosts] = useState([
-    { id: 1, title: "My DevOps Journey Begins", content: "Day 1: I containerized my first app!" },
-    { id: 2, title: "Terraforming the Cloud", content: "Learning to spin up AWS infra as code." },
-  ]);
-
+  const [posts, setPosts] = useState([]);
   const [newTitle, setNewTitle] = useState("");
   const [newContent, setNewContent] = useState("");
 
-  const addPost = () => {
+  const API_URL = "http://localhost:4000/posts";
+
+  useEffect(() => {
+    fetch(API_URL)
+      .then((res) => res.json())
+      .then((data) => setPosts(data))
+      .catch((err) => console.error("Failed to fetch posts:", err));
+  }, []);
+
+  const addPost = async () => {
     if (!newTitle.trim() || !newContent.trim()) return;
-    const newPost = {
-      id: posts.length + 1,
-      title: newTitle,
-      content: newContent,
-    };
-    setPosts([newPost, ...posts]);
-    setNewTitle("");
-    setNewContent("");
+
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ title: newTitle, content: newContent }),
+    });
+
+    if (response.ok) {
+      const created = await response.json();
+      setPosts([created, ...posts]);
+      setNewTitle("");
+      setNewContent("");
+    } else {
+      console.error("Post creation failed");
+    }
   };
 
   return (
@@ -55,6 +69,7 @@ export default function BlogPage() {
           <div key={post.id} className="bg-white p-4 rounded shadow">
             <h2 className="text-xl font-semibold">{post.title}</h2>
             <p className="text-gray-700">{post.content}</p>
+            <p className="text-sm text-gray-400">{new Date(post.created_at).toLocaleString()}</p>
           </div>
         ))}
       </div>
