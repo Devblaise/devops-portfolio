@@ -74,11 +74,6 @@ jobs:
           npm run --prefix ./client build          # next build
           npx --prefix ./client next export -o out # outputs ./client/out
 
-      - name: Get bucket name from Terraform output
-        id: tf_output
-        working-directory: infra
-        run: echo "BUCKET=$(terraform output -raw static_site_bucket_name)" >> $GITHUB_ENV
-
       - name: Upload static export to S3
         run: |
           aws s3 sync ./client/out s3://$BUCKET --delete
