@@ -73,7 +73,7 @@ jobs:
           npm ci --prefix ./client
           # Build (creates .next) then export static HTML into ./client/out
           npm run --prefix ./client build          # next build
-          npx --prefix ./client next export -o out # outputs ./client/out
+          npx --prefix ./client next export  # outputs ./client/out
 
       - name: Upload static export to S3
         run: |
