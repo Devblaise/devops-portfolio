@@ -36,6 +36,10 @@ module "ecs_service" {
 }
 
 module "static_site" {
-  source      = "./modules/s3_static_site"
-  bucket_name = "${var.project_name}-frontend" # e.g. systone-frontend
+  source         = "./modules/s3_static_site"
+  bucket_name    = "${var.project_name}-frontend" # e.g. systone-frontend
+  index_document = "index.html"
+  error_document = "404.html"
 }
+
+
