@@ -1,7 +1,10 @@
 // next.config.js
 
-export default {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   output: 'export',
   trailingSlash: true,
-}
+};
+
+module.exports = nextConfig;
 

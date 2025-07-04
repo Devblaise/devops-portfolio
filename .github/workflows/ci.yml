@@ -71,9 +71,7 @@ jobs:
       - name: Install & build Next.js client
         run: |
           npm ci --prefix ./client
-          # Build (creates .next) then export static HTML into ./client/out
-          npm run --prefix ./client build          # next build
-          npx --prefix ./client next export  # outputs ./client/out
+          npm run --prefix ./client build
 
       - name: Upload static export to S3
         run: |
